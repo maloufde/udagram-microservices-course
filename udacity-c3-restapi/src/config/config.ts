@@ -1,13 +1,13 @@
 export const config = {
   "dev": {
-    "username": process.env.POSTGRESS_USERNAME,
-    "password": process.env.POSTGRESS_PASSWORD,
-    "database": process.env.POSTGRESS_DB,
-    "host": process.env.POSTGRESS_HOST,
+    "username": process.env.UDCD_POSTGRES_USERNAME,
+    "password": process.env.UDCD_POSTGRES_PASSWORD,
+    "database": process.env.UDCD_POSTGRES_DATABASE,
+    "host": process.env.UDCD_POSTGRES_HOST,
     "dialect": "postgres",
-    "aws_reigion": process.env.AWS_REGION,
-    "aws_profile": process.env.AWS_PROFILE,
-    "aws_media_bucket": process.env.AWS_BUCKET
+    "aws_reigion": process.env.UDCD_AWS_REGION,
+    "aws_profile": process.env.UDCD_AWS_PROFILE,
+    "aws_media_bucket": process.env.UDCD_AWS_MEDIA_BUCKET
   },
   "prod": {
     "username": "",
@@ -17,7 +17,6 @@ export const config = {
     "dialect": "postgres"
   },
   "jwt": {
-    "secret": process.env.JWT_SECRET
+    "secret": process.env.UDCD_JWT_SECRET
   }
-
-}
+};
