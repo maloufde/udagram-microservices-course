@@ -7,5 +7,5 @@ install:
   - cd udacity-c3-restapi-feed
   - docker build -t maloufde/udagram-restapi-feed .
 
-deploy:
+script:
   - docker image ls
