@@ -1,0 +1,7 @@
+.git
+.gitignore
+*.md
+*.iml
+*.postman_collection.json
+node_modules
+mock
