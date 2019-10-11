@@ -1,11 +1,11 @@
-#language: node_js
+language: minimal
 
 services:
   - docker
   
-before_install:
+install:
   - cd udacity-c3-restapi-feed
   - docker build -t maloufde/udagram-restapi-feed .
 
-script:
+deploy:
   - docker image ls
