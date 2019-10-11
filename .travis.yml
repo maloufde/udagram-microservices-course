@@ -1,1 +1,5 @@
 # TODO
+language: node_js
+
+script:
+  - cd .
