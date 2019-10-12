@@ -4,6 +4,8 @@ services:
   backend-feed:
     container_name: 'udagram-backend-feed'
     image: maloufde/udagram-restapi-feed
+    build:
+      context: ../../udacity-c3-restapi-feed
     environment:
       - UDCD_POSTGRES_USERNAME
       - UDCD_POSTGRES_PASSWORD
@@ -12,10 +14,13 @@ services:
       - UDCD_AWS_REGION
       - UDCD_AWS_PROFILE
       - UDCD_AWS_MEDIA_BUCKET
+      - UDCD_JWT_SECRET
 
   backend-user:
     container_name: 'udagram-backend-user'
     image: maloufde/udagram-restapi-user
+    build:
+      context: ../../udacity-c3-restapi-user
     environment:
       - UDCD_POSTGRES_USERNAME
       - UDCD_POSTGRES_PASSWORD
@@ -24,13 +29,16 @@ services:
       - UDCD_AWS_REGION
       - UDCD_AWS_PROFILE
       - UDCD_AWS_MEDIA_BUCKET
+      - UDCD_JWT_SECRET
 
   reverseproxy:
+    image: maloufde/udagram-reverseproxy
+    build:
+      context: ./nginx
     container_name: 'udagram-reverseproxy'
     depends_on:
       - backend-feed
       - backend-user
-    image: nginx:latest
     ports:
       - "80:80"
       - "443:443"

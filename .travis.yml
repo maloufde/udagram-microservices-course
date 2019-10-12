@@ -4,8 +4,8 @@ services:
   - docker
   
 install:
-  - cd udacity-c3-restapi-feed
-  - docker build -t maloufde/udagram-restapi-feed .
+  - cd udacity-c3-deployment/docker
+  - docker-compose build reverseproxy
 
 script:
   - docker image ls
