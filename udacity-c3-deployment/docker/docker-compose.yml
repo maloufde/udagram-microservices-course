@@ -15,6 +15,12 @@ services:
       - UDCD_AWS_PROFILE
       - UDCD_AWS_MEDIA_BUCKET
       - UDCD_JWT_SECRET
+    volumes:
+      - type: bind
+        #source: d:/code/.aws
+        source: ${UDCD_AWS_CREDENTIALS}
+        target: /home/node/.aws
+        read_only: true
 
   backend-user:
     container_name: 'udagram-backend-user'
@@ -40,10 +46,4 @@ services:
       - backend-feed
       - backend-user
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - type: bind
-        source: ./nginx/conf.d
-        target: /etc/nginx/conf.d
-        read_only: true
+      - "8080:8080"
