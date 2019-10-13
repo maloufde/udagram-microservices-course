@@ -18,7 +18,6 @@ services:
       - UDCD_CORS_ALLOW=http://localhost
     volumes:
       - type: bind
-        #source: d:/code/.aws
         source: ${UDCD_AWS_CREDENTIALS}
         target: /home/node/.aws
         read_only: true
