@@ -1,11 +1,31 @@
 language: minimal
 
+#
+# Note:
+# The Current Travis builder image does not have docker-compose with build and push features working correctly:
+# So 'before_install' a more recent version.
+#
+# Links used:
+#   https://docs.docker.com/compose/install/
+#   https://medium.com/@elliotchance/using-docker-compose-on-travis-ci-6ce9664b51c4
+#
 services:
   - docker
-  
+
+env:
+  - DOCKER_COMPOSE_VERSION=1.23.2
+
+before_install:
+  - docker --version
+  - docker-compose --version
+  - sudo rm /usr/local/bin/docker-compose
+  - sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
 install:
   - cd udacity-c3-deployment/docker
-  - docker-compose build reverseproxy
+  - docker-compose build backend-feed
 
 script:
   - docker image ls
