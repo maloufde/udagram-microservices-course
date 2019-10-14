@@ -1,0 +1,35 @@
+language: minimal
+
+#
+# Note:
+# The Current Travis builder image does not have docker-compose with build and push features working correctly:
+# So 'before_install' a more recent version.
+#
+# Links:
+#   https://docs.docker.com/compose/install/
+#   https://docs.travis-ci.com/user/docker/
+#
+services:
+  - docker
+
+env:
+  global:
+    - secure: is7gmZHNKQ4nPmoxRsOR0dFi6MWLiznExnupgBWxOEw4fL7uiY3zOBi8NYMy/6JgOZdf+pMYKTpUt7dbvaKgjiuIHplfVhrwaVaoX0k5LEj34ZgOcyDjmZ3rxf/xZEtroXFetegcrwRcyZiq81iQa3wzHaA7TlmSErq1FdcqWbAgrOi8AAu9e3xuC2W72TYdqORmf4VlyuG41oCOI+2N1ktpQHCQNBHZ2RA+cbuNZm1/0ZFdM7A7NK0Ex2YA3A6G9ZLgF/3PASjfUfz/n++YWHNQMY6rSOu9xIfDx1xDrc0fjdMy90rPkDhBSsxMqiNmfaztxN7D461bt/sWEzay9gF74qrr0W2fjFegsV3a95HJC/AxmjnLIlmdPnLLlGktD1IqBG+/G/mgN9QVGkp7kWI3C3WlbkIMILg6dM2qYEd7G8UnwUdPvQMEYpA3mnU1tRI2UrKnPpItWgfHurwj7d/H/gUhQhCsK2DqVaEFNv8GyDHr8SeuhKyEeYQ6coOwQC2FtFWGzan6e+B9uSDqhtC51JHj5ADjCeEyu+R7YHr9EhzD0A5jikMZafIhlb0roJAGKKRnxZis4YvmU7DXl0i7Cro5pZsHddizhjO9OsRkJURqu5NZbREJipNpNuiuwG+TPUyYb5xgbWva5ir+q6XUu2M2JI2exapPmplK+68=
+    - secure: GWbicJ3sEII7GwibrQZv/ix05hZLmV+VLwahiWoNeuBsJej8eqMFsaO07zonIBBA2gsjFo+q5Xop33Okst3oMfjIrj8qhh27vj3/SN+SBaWRf5ehgHkf943Szqhd3fE/EQbeMW/LSVMlyUQ+L85vlAd3WXzLUGo5fp7Izoe6Ak1fIw7Yc28qBrkzZY+F3zeup0S0Ql4QlnM/eD7hrrvDe+DDHcYQ+kFxeaimfVU/Lx49iTzW1TUIG34rIPPpW838Jfkw10GLT48AraCHGWTqW7YME7isXxMtjKrsHRnNRcBRQjoi0925MyzHquiNiNcSPqa3zgZuUjaJiHwcOu4oulXB1CET9U6LQeHUglf6cYqm/ONt7W7sEnntkMJBXp7qEo5Hj3yqd4tfujIpC/NgoRGq8rqZTB0kGVyOuj+MoE8CMfgIKh5Vixu4QB+iRw8vYOJQngduhChk1OyMbRt1T/n/im8LhWEE/IXi+8FN+MDZyglEc88BYEugktn3sbIkerVxVwofBemNy0pGLMG85d8zVr3fJdUx3Vrns/UflPNN1Y3A9R/45LEgTgCYWY4NgipBsdcpMCpZzBlcT31PBxWDet+RU+PmhCmS0+3/ck/bN6drCegs2zvvifwpBMzrrSGKZzFgehBeaMRbG6rcTnl+lswvVRs44p71o9RKBGg=
+
+before_install:
+  - docker --version
+  - docker-compose --version
+  - sudo rm /usr/local/bin/docker-compose
+  - sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+install:
+  - cd udacity-c3-deployment/docker
+  - docker-compose build backend-feed backend-user reverseproxy
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+  - docker-compose push backend-feed backend-user reverseproxy
+
+script:
+  - docker image ls
