@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udagram-restapi-feed
+  labels:
+    app: udagram-restapi-feed
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      service: udagram-restapi-feed
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        service: udagram-restapi-feed
+    spec:
+      containers:
+        - name: udagram-restapi-feed
+          image: maloufde/udagram-restapi-feed
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "125m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: UDCD_POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: UDCD_POSTGRES_HOST
+            - name: UDCD_POSTGRES_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: UDCD_POSTGRES_DATABASE
+            - name: UDCD_POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDCD_POSTGRES_USERNAME
+            - name: UDCD_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDCD_POSTGRES_PASSWORD
+            - name: UDCD_AWS_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: UDCD_AWS_PROFILE
+            - name: UDCD_AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: UDCD_AWS_REGION
+            - name: UDCD_AWS_MEDIA_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: UDCD_AWS_MEDIA_BUCKET
+            - name: UDCD_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDCD_JWT_SECRET
+            - name: UDCD_CORS_ALLOW
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: UDCD_CORS_ALLOW
+          volumeMounts:
+            - name: aws-secret
+              mountPath: "/home/node/.aws"
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: aws-secret
+          secret:
+            secretName: aws-secret

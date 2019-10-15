@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-config
+data:
+  UDCD_POSTGRES_HOST: REPLACE_BY_HOSTNAME
+  UDCD_POSTGRES_DATABASE: REPLACE_BY_DBNAME
+  UDCD_AWS_PROFILE: default
+  UDCD_AWS_REGION: us-east-1
+  UDCD_AWS_MEDIA_BUCKET: REPLACE_BY_MEDIABUCKETNAME
+  UDCD_CORS_ALLOW: http://localhost:8100
