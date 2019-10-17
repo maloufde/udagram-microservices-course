@@ -24,12 +24,23 @@ before_install:
   - sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.2/bin/linux/amd64/kubectl
+  - chmod +x kubectl
+  - sudo mv kubectl /usr/local/bin/kubectl
 
 install:
   - cd udacity-c3-deployment/docker
-  - docker-compose build backend-feed backend-user reverseproxy
+  - docker-compose build backend-feed backend-user reverseproxy frontend
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-  - docker-compose push backend-feed backend-user reverseproxy
+  - docker-compose push backend-feed backend-user reverseproxy frontend
+  - cd ../kubernetes
+  - mkdir -p ${HOME}/.kube
+  - cp kubeconfig-template ${HOME}/.kube/config
+  - kubectl config set clusters.maloufde-udagram.certificate-authority-data "$KUBECTL_CLUSTER_CERT"
+  - kubectl config set users.kubernetes-admin.client-certificate-data "$KUBECTL_CLIENT_CERT"
+  - kubectl config set users.kubernetes-admin.client-key-data "$KUBECTL_CLIENT_KEY_DATA"
+  - kubectl apply -f deployments/restapi-feed-deployment.yml
 
 script:
   - docker image ls
+  - kubectl get all
