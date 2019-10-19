@@ -39,8 +39,9 @@ install:
   - kubectl config set clusters.maloufde-udagram.certificate-authority-data "$KUBECTL_CLUSTER_CERT"
   - kubectl config set users.kubernetes-admin.client-certificate-data "$KUBECTL_CLIENT_CERT"
   - kubectl config set users.kubernetes-admin.client-key-data "$KUBECTL_CLIENT_KEY_DATA"
-  - kubectl apply -f deployments/restapi-feed-deployment.yml
+  - chmod +x update-kubernetes-namespace.sh
+  - ./update-kubernetes-namespace.sh udagram-${TRAVIS_BRANCH}
 
 script:
   - docker image ls
-  - kubectl get all
+  - kubectl -n udagram-${TRAVIS_BRANCH} get all
