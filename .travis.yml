@@ -27,19 +27,15 @@ before_install:
   - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.2/bin/linux/amd64/kubectl
   - chmod +x kubectl
   - sudo mv kubectl /usr/local/bin/kubectl
+  - chmod +x kubernetes/*.sh
 
 install:
   - cd udacity-c3-deployment/docker
-  - docker-compose build backend-feed backend-user reverseproxy frontend
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-  - docker-compose push backend-feed backend-user reverseproxy frontend
+  - docker-compose build
+  - docker-compose push
   - cd ../kubernetes
-  - mkdir -p ${HOME}/.kube
-  - cp kubeconfig-template ${HOME}/.kube/config
-  - kubectl config set clusters.maloufde-udagram.certificate-authority-data "$KUBECTL_CLUSTER_CERT"
-  - kubectl config set users.kubernetes-admin.client-certificate-data "$KUBECTL_CLIENT_CERT"
-  - kubectl config set users.kubernetes-admin.client-key-data "$KUBECTL_CLIENT_KEY_DATA"
-  - chmod +x update-kubernetes-namespace.sh
+  - ./setup-kubectl.sh
   - ./update-kubernetes-namespace.sh udagram-${TRAVIS_BRANCH}
 
 script:
