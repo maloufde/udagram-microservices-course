@@ -3,7 +3,7 @@ version: '3.7'
 services:
   backend-feed:
     container_name: 'udagram-backend-feed'
-    image: maloufde/udagram-restapi-feed
+    image: maloufde/udagram-restapi-feed:1.0.0
     build:
       context: ../../udacity-c3-restapi-feed
     environment:
@@ -18,13 +18,13 @@ services:
       - UDCD_CORS_ALLOW
     volumes:
       - type: bind
-        source: ${UDCD_AWS_CREDENTIALS:-~/.aws}
+        source: ${UDCD_AWS_CREDENTIALS}
         target: /home/node/.aws
         read_only: true
 
   backend-user:
     container_name: 'udagram-backend-user'
-    image: maloufde/udagram-restapi-user
+    image: maloufde/udagram-restapi-user:1.0.0
     build:
       context: ../../udacity-c3-restapi-user
     environment:
@@ -39,7 +39,7 @@ services:
       - UDCD_CORS_ALLOW
 
   reverseproxy:
-    image: maloufde/udagram-reverseproxy
+    image: maloufde/udagram-reverseproxy:1.0.0
     build:
       context: ./nginx
     container_name: 'udagram-reverseproxy'
@@ -50,7 +50,7 @@ services:
       - "8080:8080"
 
   frontend:
-    image: maloufde/udagram-frontend
+    image: maloufde/udagram-frontend:1.0.0
     build:
       context: ../../udacity-c3-frontend
     container_name: 'udagram-frontend'
