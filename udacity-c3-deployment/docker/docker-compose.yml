@@ -15,10 +15,10 @@ services:
       - UDCD_AWS_PROFILE
       - UDCD_AWS_MEDIA_BUCKET
       - UDCD_JWT_SECRET
-      - UDCD_CORS_ALLOW=http://localhost
+      - UDCD_CORS_ALLOW
     volumes:
       - type: bind
-        source: ${UDCD_AWS_CREDENTIALS}
+        source: ${UDCD_AWS_CREDENTIALS:-~/.aws}
         target: /home/node/.aws
         read_only: true
 
@@ -36,7 +36,7 @@ services:
       - UDCD_AWS_PROFILE
       - UDCD_AWS_MEDIA_BUCKET
       - UDCD_JWT_SECRET
-      - UDCD_CORS_ALLOW=http://localhost
+      - UDCD_CORS_ALLOW
 
   reverseproxy:
     image: maloufde/udagram-reverseproxy
@@ -55,4 +55,4 @@ services:
       context: ../../udacity-c3-frontend
     container_name: 'udagram-frontend'
     ports:
-      - "80:80"
+      - "8100:80"
