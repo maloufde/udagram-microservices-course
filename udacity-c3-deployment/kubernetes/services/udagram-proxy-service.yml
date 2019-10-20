@@ -5,9 +5,10 @@ metadata:
   labels:
     service: udagram-reverseproxy
 spec:
+  type: LoadBalancer
   ports:
-    - name: "8080"
-      port: 8080
+    - name: "udagram-api"
+      port: 80
       targetPort: 8080
       protocol: TCP
   selector:

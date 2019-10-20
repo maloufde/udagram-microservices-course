@@ -6,7 +6,7 @@ metadata:
     service: backend-feed
 spec:
   ports:
-    - name: "8080"
+    - name: "udagram-feed-api"
       port: 8080
       targetPort: 8080
       protocol: TCP

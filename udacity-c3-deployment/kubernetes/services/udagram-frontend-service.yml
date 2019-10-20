@@ -6,7 +6,7 @@ metadata:
     service: udagram-frontend
 spec:
   ports:
-    - name: "8100"
+    - name: "udagram-ui"
       port: 8100
       targetPort: 80
       protocol: TCP
