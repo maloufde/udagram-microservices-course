@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: udagram-frontend
-          image: maloufde/udagram-frontend:1.0.1
+          image: maloufde/udagram-frontend:1.0.2
           imagePullPolicy: Always
           resources:
             requests:
