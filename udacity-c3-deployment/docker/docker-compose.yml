@@ -3,7 +3,7 @@ version: '3.7'
 services:
   backend-feed:
     container_name: 'udagram-backend-feed'
-    image: maloufde/udagram-restapi-feed:1.0.0
+    image: maloufde/udagram-restapi-feed:1.0.1
     build:
       context: ../../udacity-c3-restapi-feed
     environment:
