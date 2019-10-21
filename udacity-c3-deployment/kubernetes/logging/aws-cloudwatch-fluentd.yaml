@@ -275,19 +275,6 @@ data:
   host.conf: |
     <source>
       @type tail
-      @id in_tail_dmesg
-      @label @hostlogs
-      path /var/log/dmesg
-      pos_file /var/log/dmesg.log.pos
-      tag host.dmesg
-      read_from_head true
-      <parse>
-        @type syslog
-      </parse>
-    </source>
-
-    <source>
-      @type tail
       @id in_tail_secure
       @label @hostlogs
       path /var/log/secure
@@ -343,7 +330,7 @@ data:
       </match>
     </label>
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: fluentd-cloudwatch
@@ -351,6 +338,9 @@ metadata:
   labels:
     k8s-app: fluentd-cloudwatch
 spec:
+  selector:
+    matchLabels:
+      k8s-app: fluentd-cloudwatch
   template:
     metadata:
       labels:
@@ -377,7 +367,7 @@ spec:
           command: ['sh','-c','']
       containers:
         - name: fluentd-cloudwatch
-          image: fluent/fluentd-kubernetes-daemonset:v1.3.3-debian-cloudwatch-1.4
+          image: fluent/fluentd-kubernetes-daemonset:v1.7-debian-cloudwatch-1
           env:
             - name: REGION
               valueFrom:
