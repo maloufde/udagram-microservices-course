@@ -4,10 +4,13 @@ metadata:
   name: udagram-frontend
   labels:
     service: udagram-frontend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
 spec:
+  type: LoadBalancer
   ports:
     - name: "udagram-ui"
-      port: 8100
+      port: 80
       targetPort: 80
       protocol: TCP
   selector:

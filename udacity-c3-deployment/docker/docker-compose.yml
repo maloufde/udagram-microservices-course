@@ -50,7 +50,7 @@ services:
       - "8080:8080"
 
   frontend:
-    image: maloufde/udagram-frontend:1.0.0
+    image: maloufde/udagram-frontend:1.0.1
     build:
       context: ../../udacity-c3-frontend
     container_name: 'udagram-frontend'

@@ -4,6 +4,8 @@ metadata:
   name: udagram-reverseproxy
   labels:
     service: udagram-reverseproxy
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
 spec:
   type: LoadBalancer
   ports:
