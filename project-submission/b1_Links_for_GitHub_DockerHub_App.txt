@@ -1,0 +1,11 @@
+GitHub:
+https://github.com/maloufde/udagram-microservices-course
+
+DockerHub:
+https://hub.docker.com/u/maloufde
+
+App (Master-Branch)
+http://frontend.udagram.christian-malouf.de
+
+App (Development-Branch)
+http://dev-frontend.udagram.christian-malouf.de
