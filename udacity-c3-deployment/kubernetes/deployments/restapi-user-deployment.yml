@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: udagram-restapi-user
-          image: maloufde/udagram-restapi-user
+          image: maloufde/udagram-restapi-user:1.0.0
           imagePullPolicy: Always
           resources:
             requests:
