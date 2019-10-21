@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udagram-reverseproxy
+  labels:
+    app: udagram-reverseproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: udagram-reverseproxy
+  template:
+    metadata:
+      labels:
+        service: udagram-reverseproxy
+    spec:
+      containers:
+        - name: udagram-reverseproxy
+          image: maloufde/udagram-reverseproxy:1.0.0
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

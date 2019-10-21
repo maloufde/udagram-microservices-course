@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: udagram-reverseproxy
+  labels:
+    service: udagram-reverseproxy
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "udagram-api"
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    service: udagram-reverseproxy
